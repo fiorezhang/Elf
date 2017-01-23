@@ -22,6 +22,9 @@
 
 #define MAXIM_TRIBES 1
 
+#define COMBAT_HEALTH_ELF 100
+#define COMBAT_ENERGY_ELF 10
+
 #define SLEEP_MS 10
 
 #endif//DEFINES_H

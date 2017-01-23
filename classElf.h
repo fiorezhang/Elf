@@ -5,6 +5,12 @@
 
 using namespace std;
 
+typedef struct _Power
+{
+    int health;
+    int energy;
+}Power;
+
 typedef struct _Element
 {
     int gold; 
@@ -49,12 +55,14 @@ public:
     ~Elf();
 
     int getIndex() const { return index; }
+    char *getName() const { return name; }
     bool getGender() const { return gender; }
     Action getAction() const { return action; }
     void setActionMate() { action = MATE; }
     void setActionNone() { action = NONE; }
     Status getStatus() const { return status; }
 
+    Power getPower() const { return power; }
     Element getElements() const { return elements; }
     int getAge() const { return age; }
     int getKid() const { return kid; }
@@ -77,6 +85,7 @@ private:
     bool gender; 
     int age;
     int kid; 
+    Power power;
     Element elements; 
     Element genetics; 
     Ancestor ancestors;

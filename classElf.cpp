@@ -103,6 +103,9 @@ Elf::Elf(const char *n, const bool m, const int y, const int g, const int w, con
     age = y; 
     kid = 0; 
 
+    power.health = COMBAT_HEALTH_ELF;
+    power.energy = COMBAT_ENERGY_ELF;
+
     elements.gold = g; 
     elements.wood = w; 
     elements.dust = d; 
@@ -156,6 +159,8 @@ Elf::Elf(Elf &elfPa, Elf &elfMa)
     age = 0;
     kid = 0; 
 
+    power.health = COMBAT_HEALTH_ELF;
+    power.energy = COMBAT_ENERGY_ELF;
     ////
     elements.gold = elements.wood = elements.dust = elements.agua = elements.fire = BASIC_VALUE; 
     genetics.gold = getDeltaGenetic(elfPa.getElements().gold, elfMa.getElements().gold, elfPa.getStatus(), elfMa.getStatus()); 

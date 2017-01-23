@@ -8,6 +8,11 @@
 #include "classElf.h"
 #include "classTribe.h"
 
+int testCombat()
+{
+
+}
+
 
 int main()
 {
@@ -16,7 +21,8 @@ int main()
 
 
     srand((unsigned)time(NULL));
-
+    
+    testCombat();
 
     while (1)
     {
