@@ -6,25 +6,30 @@
 
 using namespace std;
 
-typedef struct _Warrior
+typedef struct _Dragon
 {
     char *name;
-    Power power;
+    Power powers;
     Element elements;
-}Warrior;
+    int * pElements;
+    int nextStep; 
+    int nextDamage;
+    Elf *pElf;
+}Dragon;
 
 class Combat
 {
 public:
-    Combat(const Elf&, const Elf&);
+    Combat(Elf&, Elf&);
     ~Combat();
 
-    //int getNextAction(Elf &);
-    int getOneRoundResult();
-    Elf &getFinalResult();
+    void getNextAction();
+    bool getOneRoundResult();
+    Elf *getFinalResult();
+    Elf *autoRun();
 private:
-    Warrior warriorA;
-    Warrior warriorB;
+    Dragon dragonA;
+    Dragon dragonB;
 };
 
 #endif

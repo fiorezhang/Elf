@@ -4,6 +4,7 @@ LDFLAGS=
 SOURCES=main.cpp \
         classElf.cpp \
         classTribe.cpp \
+        classCombat.cpp \
 
 SOURCES+= \
 

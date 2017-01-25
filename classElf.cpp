@@ -35,7 +35,6 @@ static const string sColorAncestor[] = { LBLA, LRED, LGRE, LYEL, LBLU, LPUR, LCY
 ostream &operator<<(ostream &output, const Elf &elf)
 {
     int elements = elf.elements.gold+elf.elements.wood+elf.elements.dust+elf.elements.agua+elf.elements.fire;
-    // if (elements >= MAXIM_VALUE * 5) elements = MAXIM_VALUE * 5 - 1; 
 
     output<<((elf.gender)?LBLU:LRED)<<setw(7)<<elf.index
           <<setw(5)<<elf.name
@@ -103,8 +102,8 @@ Elf::Elf(const char *n, const bool m, const int y, const int g, const int w, con
     age = y; 
     kid = 0; 
 
-    power.health = COMBAT_HEALTH_ELF;
-    power.energy = COMBAT_ENERGY_ELF;
+    powers.health = COMBAT_HEALTH_ELF;
+    powers.energy = COMBAT_ENERGY_ELF;
 
     elements.gold = g; 
     elements.wood = w; 
@@ -159,8 +158,8 @@ Elf::Elf(Elf &elfPa, Elf &elfMa)
     age = 0;
     kid = 0; 
 
-    power.health = COMBAT_HEALTH_ELF;
-    power.energy = COMBAT_ENERGY_ELF;
+    powers.health = COMBAT_HEALTH_ELF;
+    powers.energy = COMBAT_ENERGY_ELF;
     ////
     elements.gold = elements.wood = elements.dust = elements.agua = elements.fire = BASIC_VALUE; 
     genetics.gold = getDeltaGenetic(elfPa.getElements().gold, elfMa.getElements().gold, elfPa.getStatus(), elfMa.getStatus()); 
@@ -208,7 +207,7 @@ void Elf::ding()
 
     if (status == PUPAE)
     {
-        for (int i=0; i<5; i++)
+        for (int i=0; i<NUM_ELEMENTS; i++)
         {
             if (rand()%genetic_deno < genetic_mole) // the odd the pupae get a growth from the genetic
                 pElement[i] += fuzzyNum((pGenetic[i] / YOUNG_AGE), FUZZY_DING);
@@ -216,13 +215,13 @@ void Elf::ding()
     }
     else if (status == YOUNG)
     {
-        pElement[rand()%5] += fuzzyNum(YOUNG_VALUE, FUZZY_DING);
+        pElement[rand()%NUM_ELEMENTS] += fuzzyNum(YOUNG_VALUE, FUZZY_DING);
     }
     else if (status == ADULT)
     {
         int maxEle = 0; 
         int cntEle = 0; 
-        for (int i=0; i<5; i++)
+        for (int i=0; i<NUM_ELEMENTS; i++)
         {
             if (pElement[i] > maxEle)
             {
@@ -232,17 +231,17 @@ void Elf::ding()
             if (pElement[i] == maxEle && rand()%2)
                 cntEle = i; 
         }
-        int j = 5; // try to find a non-max parameter to ding
+        int j = 7; // try to find a non-max parameter to ding
         while (pElement[cntEle] == MAXIM_VALUE && j--)
-            cntEle = rand()%5;
+            cntEle = rand()%NUM_ELEMENTS;
 
 
         pElement[cntEle] += fuzzyNum(ADULT_VALUE, FUZZY_DING);
 
-        pElement[rand()%5] += fuzzyNum(YOUNG_VALUE, FUZZY_DING);
+        pElement[rand()%NUM_ELEMENTS] += fuzzyNum(YOUNG_VALUE, FUZZY_DING);
     }
 
-    for (int i=0; i<5; i++)
+    for (int i=0; i<NUM_ELEMENTS; i++)
     {
         if (pElement[i] > MAXIM_VALUE)
             pElement[i] = MAXIM_VALUE; 

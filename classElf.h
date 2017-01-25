@@ -62,7 +62,7 @@ public:
     void setActionNone() { action = NONE; }
     Status getStatus() const { return status; }
 
-    Power getPower() const { return power; }
+    Power getPowers() const { return powers; }
     Element getElements() const { return elements; }
     int getAge() const { return age; }
     int getKid() const { return kid; }
@@ -85,7 +85,7 @@ private:
     bool gender; 
     int age;
     int kid; 
-    Power power;
+    Power powers;
     Element elements; 
     Element genetics; 
     Ancestor ancestors;

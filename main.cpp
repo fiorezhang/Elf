@@ -7,10 +7,22 @@
 #include <unistd.h>
 #include "classElf.h"
 #include "classTribe.h"
+#include "classCombat.h"
 
 int testCombat()
 {
 
+    Elf *pElfA = NULL;
+    Elf *pElfB = NULL;
+    pElfA = new Elf("Gol", true,  YOUNG_AGE, 100, 100, 100, 100, 100);
+    pElfB = new Elf("Ven", false, YOUNG_AGE, 100, 100, 100, 100, 100);
+
+    Combat *pCombat = NULL;
+    pCombat = new Combat(*pElfA, *pElfB);
+    pCombat->autoRun();
+
+while(1);
+    return 0;
 }
 
 
