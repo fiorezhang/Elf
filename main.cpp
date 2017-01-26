@@ -14,14 +14,21 @@ int testCombat()
 
     Elf *pElfA = NULL;
     Elf *pElfB = NULL;
-    pElfA = new Elf("Gol", true,  YOUNG_AGE, 100, 100, 100, 100, 100);
-    pElfB = new Elf("Ven", false, YOUNG_AGE, 100, 100, 100, 100, 100);
+    pElfA = new Elf("Gol", true,  YOUNG_AGE, 400, 100, 400, 300, 100);
+    pElfB = new Elf("Ven", false, YOUNG_AGE, 260, 260, 260, 260, 260);
 
+    while (1){
     Combat *pCombat = NULL;
     pCombat = new Combat(*pElfA, *pElfB);
     pCombat->autoRun();
+    delete pCombat;
+    usleep(1000 * 500);
+    getchar(); 
+    }
 
-while(1);
+    delete pElfA; 
+    delete pElfB;
+
     return 0;
 }
 

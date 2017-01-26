@@ -15,9 +15,9 @@ typedef struct _Element
 {
     int gold; 
     int wood; 
+    int dust; 
     int agua; 
     int fire; 
-    int dust; 
 }Element; 
 
 typedef struct _Ancestor

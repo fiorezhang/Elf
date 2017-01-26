@@ -8,6 +8,8 @@
 #include "color.h"
 #include "classCombat.h"
 
+#define DEBUG_PRINT
+
 Combat::Combat(Elf &elfA, Elf &elfB)
 {
     dragonA.name = new char[strlen(elfA.getName()) + 1]; 
@@ -18,7 +20,7 @@ Combat::Combat(Elf &elfA, Elf &elfB)
     dragonA.nextStep = NUM_ELEMENTS;
     dragonA.nextDamage = 0;
     dragonA.pElf = &elfA;
-    cout<<elfA<<"\n";
+    //cout<<elfA<<"\n";
 
     dragonB.name = new char[strlen(elfB.getName()) + 1]; 
     strcpy(dragonB.name, elfB.getName());
@@ -28,10 +30,12 @@ Combat::Combat(Elf &elfA, Elf &elfB)
     dragonB.nextStep = NUM_ELEMENTS;
     dragonB.nextDamage = 0;
     dragonB.pElf = &elfB;
-    cout<<elfB<<"\n";
+    //cout<<elfB<<"\n";
 
+    #ifdef DEBUG_PRINT
     cout<<"dragonA.name:  "<<dragonA.name<<"["<<dragonA.powers.health<<"]"<<" =="<<dragonA.powers.energy<<"== "<<dragonA.pElements[0]<<" "<<dragonA.pElements[1]<<" "<<dragonA.pElements[2]<<" "<<dragonA.pElements[3]<<" "<<dragonA.pElements[4]<<"""""\n";
     cout<<"dragonB.name:  "<<dragonB.name<<"["<<dragonB.powers.health<<"]"<<" =="<<dragonB.powers.energy<<"== "<<dragonB.pElements[0]<<" "<<dragonB.pElements[1]<<" "<<dragonB.pElements[2]<<" "<<dragonB.pElements[3]<<" "<<dragonB.pElements[4]<<"""""\n";
+    #endif
 }
 
 Combat::~Combat()
@@ -95,7 +99,6 @@ bool Combat::getOneRoundResult()
     if (dragonA.powers.health < 0) dragonA.powers.health = 0;
     if (dragonB.powers.health < 0) dragonB.powers.health = 0;
 
-    /*
     // to revent both die together, randomly select one live
     if (dragonA.powers.health == 0 && dragonB.powers.health == 0)
     {
@@ -104,13 +107,19 @@ bool Combat::getOneRoundResult()
         else
             dragonB.powers.health = 1;
     }
-    */
 
+    #ifdef DEBUG_PRINT
     // print
+    /*
     cout<<dragonA.name<<"   <<"<<dragonA.nextStep<<">>    "<<dragonA.nextDamage<<"    [ "<<dragonA.powers.health<<" ]"<<"\n";
     cout<<dragonB.name<<"   <<"<<dragonB.nextStep<<">>    "<<dragonB.nextDamage<<"    [ "<<dragonB.powers.health<<" ]"<<"\n";
     cout<<"\n";
-    
+    */
+    cout<<setw(5)<<dragonA.name<<" cast "<<setw(4)<<dragonA.nextStep<<" hurt "<<setw(3)<<dragonA.nextDamage<<", self health "<<setw(5)<<dragonA.powers.health<<"; ";
+    cout<<setw(5)<<dragonB.name<<" cast "<<setw(4)<<dragonB.nextStep<<" hurt "<<setw(3)<<dragonB.nextDamage<<", self health "<<setw(5)<<dragonB.powers.health<<"\n";
+    #endif
+
+ 
     // set back to default value before next turn
     dragonA.nextStep = NUM_ELEMENTS;
     dragonA.nextDamage = 0;
@@ -146,7 +155,10 @@ Elf * Combat::autoRun()
     for (int i=0; i<MAXIM_COMBAT_TURN; i++)
     {
         //usleep(1000 * 3000);
-        cout<<"Round: "<<i<<"\n";
+        #ifdef DEBUG_PRINT
+        cout<<"Round "<<setw(4)<<i<<": ";
+        #endif
+
         getNextAction();
         
         if (getOneRoundResult())
