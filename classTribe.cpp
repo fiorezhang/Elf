@@ -346,8 +346,10 @@ void Tribe::remove(Elf *pElf)
 Elf *Tribe::findRand()
 {
     int loop = 0; 
+    int randCount = rand()%count;
     Elf *pElf = pHead; 
-    while (loop++ < (rand()%count))
+    
+    while (loop++ < randCount)
     {
         pElf = pElf->getPtrNext(); 
     }

@@ -34,12 +34,14 @@ Combat::Combat(Elf &elfA, Elf &elfB)
     dragonB.pElf = &elfB;
     //cout<<elfB<<"\n";
 
+    /*
     #ifdef DEBUG_PRINT
     elfA.printTitle();
     cout<<elfA<<"\n";
     cout<<elfB<<"\n";
     cout<<"\n";
     #endif
+    */
 }
 
 Combat::~Combat()
@@ -259,7 +261,7 @@ void Combat::printTitle()
 Elf * Combat::autoRun()
 {
     #ifdef DEBUG_PRINT
-    cout<<setw(4)<<"Turn";
+    cout<<setw(7)<<"Turn";
     printTitle();
     #endif
    
@@ -270,7 +272,7 @@ Elf * Combat::autoRun()
 
         //print the number of the turn
         #ifdef DEBUG_PRINT
-        cout<<setw(4)<<i;
+        cout<<setw(7)<<i;
         #endif
 
         getNextAction();
@@ -283,8 +285,15 @@ Elf * Combat::autoRun()
     if (pElf == NULL)
         cout<<LBLU<<"DRAW\n"<<CDEF;
     else
-        cout<<LRED<<setw(4)<<"WIN"
+        cout<<LBLA<<setw(7)<<"WINNER"
             <<LYEL<<setw(5)<<pElf->getName()<<CDEF
             <<"\n";
+
+    #ifdef DEBUG_PRINT
+    dragonA.pElf->printTitle();
+    cout<<*(dragonA.pElf)<<"\n";
+    cout<<*(dragonB.pElf)<<"\n";
+    cout<<"\n";
+    #endif
     return pElf;
 }
