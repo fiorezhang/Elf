@@ -10,6 +10,7 @@ typedef struct _Dragon
 {
     char *name;
     Power powers;
+    int maxHealth;
     Element elements;
     int * pElements;
     int nextStep; 
@@ -24,8 +25,10 @@ public:
     ~Combat();
 
     void getNextAction();
-    bool getOneRoundResult();
+    bool getTurnResult();
     Elf *getFinalResult();
+    void printTitle();
+    void printTurn();
     Elf *autoRun();
 private:
     Dragon dragonA;

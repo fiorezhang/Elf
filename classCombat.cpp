@@ -15,6 +15,7 @@ Combat::Combat(Elf &elfA, Elf &elfB)
     dragonA.name = new char[strlen(elfA.getName()) + 1]; 
     strcpy(dragonA.name, elfA.getName());
     dragonA.powers = elfA.getPowers();
+    dragonA.maxHealth = dragonA.powers.health;
     dragonA.elements = elfA.getElements(); 
     dragonA.pElements = (int *)&(dragonA.elements);
     dragonA.nextStep = NUM_ELEMENTS;
@@ -25,6 +26,7 @@ Combat::Combat(Elf &elfA, Elf &elfB)
     dragonB.name = new char[strlen(elfB.getName()) + 1]; 
     strcpy(dragonB.name, elfB.getName());
     dragonB.powers = elfB.getPowers();
+    dragonB.maxHealth = dragonB.powers.health;
     dragonB.elements = elfB.getElements(); 
     dragonB.pElements = (int *)&(dragonB.elements);
     dragonB.nextStep = NUM_ELEMENTS;
@@ -33,8 +35,10 @@ Combat::Combat(Elf &elfA, Elf &elfB)
     //cout<<elfB<<"\n";
 
     #ifdef DEBUG_PRINT
-    cout<<"dragonA.name:  "<<dragonA.name<<"["<<dragonA.powers.health<<"]"<<" =="<<dragonA.powers.energy<<"== "<<dragonA.pElements[0]<<" "<<dragonA.pElements[1]<<" "<<dragonA.pElements[2]<<" "<<dragonA.pElements[3]<<" "<<dragonA.pElements[4]<<"""""\n";
-    cout<<"dragonB.name:  "<<dragonB.name<<"["<<dragonB.powers.health<<"]"<<" =="<<dragonB.powers.energy<<"== "<<dragonB.pElements[0]<<" "<<dragonB.pElements[1]<<" "<<dragonB.pElements[2]<<" "<<dragonB.pElements[3]<<" "<<dragonB.pElements[4]<<"""""\n";
+    elfA.printTitle();
+    cout<<elfA<<"\n";
+    cout<<elfB<<"\n";
+    cout<<"\n";
     #endif
 }
 
@@ -53,7 +57,7 @@ void Combat::getNextAction()
 }
 
 //return false if combat not finished(health all 
-bool Combat::getOneRoundResult() 
+bool Combat::getTurnResult() 
 {
     if (dragonA.nextStep < 0 || dragonA.nextStep >= NUM_ELEMENTS || dragonB.nextStep < 0 || dragonB.nextStep >= NUM_ELEMENTS)
     {
@@ -61,6 +65,8 @@ bool Combat::getOneRoundResult()
         return false; 
     }
 
+    dragonA.nextDamage = 0;
+    dragonB.nextDamage = 0;
 
     switch ((NUM_ELEMENTS + dragonA.nextStep - dragonB.nextStep) % NUM_ELEMENTS)
     {
@@ -98,6 +104,8 @@ bool Combat::getOneRoundResult()
 
     if (dragonA.powers.health < 0) dragonA.powers.health = 0;
     if (dragonB.powers.health < 0) dragonB.powers.health = 0;
+    if (dragonA.powers.health > dragonA.maxHealth) dragonA.powers.health = dragonA.maxHealth; 
+    if (dragonB.powers.health > dragonB.maxHealth) dragonB.powers.health = dragonB.maxHealth; 
 
     // to revent both die together, randomly select one live
     if (dragonA.powers.health == 0 && dragonB.powers.health == 0)
@@ -107,25 +115,6 @@ bool Combat::getOneRoundResult()
         else
             dragonB.powers.health = 1;
     }
-
-    #ifdef DEBUG_PRINT
-    // print
-    /*
-    cout<<dragonA.name<<"   <<"<<dragonA.nextStep<<">>    "<<dragonA.nextDamage<<"    [ "<<dragonA.powers.health<<" ]"<<"\n";
-    cout<<dragonB.name<<"   <<"<<dragonB.nextStep<<">>    "<<dragonB.nextDamage<<"    [ "<<dragonB.powers.health<<" ]"<<"\n";
-    cout<<"\n";
-    */
-    cout<<setw(5)<<dragonA.name<<" cast "<<setw(4)<<dragonA.nextStep<<" hurt "<<setw(3)<<dragonA.nextDamage<<", self health "<<setw(5)<<dragonA.powers.health<<"; ";
-    cout<<setw(5)<<dragonB.name<<" cast "<<setw(4)<<dragonB.nextStep<<" hurt "<<setw(3)<<dragonB.nextDamage<<", self health "<<setw(5)<<dragonB.powers.health<<"\n";
-    #endif
-
- 
-    // set back to default value before next turn
-    dragonA.nextStep = NUM_ELEMENTS;
-    dragonA.nextDamage = 0;
-    dragonB.nextStep = NUM_ELEMENTS;
-    dragonB.nextDamage = 0;
-
     // combat finish if one of them die
     if (dragonA.powers.health == 0 || dragonB.powers.health == 0)
         return true;
@@ -133,39 +122,169 @@ bool Combat::getOneRoundResult()
     return false;     
 }
 
+void Combat::printTurn()
+{
+    #ifdef DEBUG_PRINT
+    cout  <<setw(5)<<dragonA.name;
+    cout  <<"  |  ";
+
+    for (int i=0; i<NUM_ELEMENTS; i++)
+    {
+        if (i == dragonA.nextStep)
+        {
+            if (dragonA.nextDamage > 0)
+                cout<<LRED<<setw(5)<<dragonA.nextDamage<<CDEF;
+            else if (dragonA.nextDamage < 0)
+                cout<<LGRE<<setw(5)<<-dragonA.nextDamage<<CDEF;
+            else
+                cout<<LBLA<<setw(5)<<dragonA.nextDamage<<CDEF;
+        }
+        else
+            cout<<LBLA<<setw(5)<<"_____"<<CDEF;
+    }
+    cout  <<"  |  ";
+
+    int percentHealthA = 100 * dragonA.powers.health / dragonA.maxHealth;
+    if (percentHealthA >= 100)
+        cout<<LGRE;
+    else if (percentHealthA < 100 && percentHealthA >= 50)
+        cout<<LBLU;
+    else if (percentHealthA < 50 && percentHealthA >= 20)
+        cout<<LYEL; 
+    else if (percentHealthA < 20 && percentHealthA > 0)
+        cout<<LPUR; 
+    else
+        cout<<LRED;
+    cout  <<setw(5)<<dragonA.powers.health<<CDEF;
+
+    switch ((NUM_ELEMENTS + dragonA.nextStep - dragonB.nextStep) % NUM_ELEMENTS)
+    {
+        case 0: 
+            cout<<" __/__\\__ ";
+            break;
+        case 1: 
+            cout<<" __/_____ ";
+            break;
+        case 2: 
+            cout<<" _____/__ ";
+            break;
+        case 3: 
+            cout<<" __\\_____ ";
+            break;
+        case 4: 
+            cout<<" _____\\__ ";
+            break;
+    }
+
+    int percentHealthB = 100 * dragonB.powers.health / dragonB.maxHealth;
+    if (percentHealthB >= 100)
+        cout<<LGRE;
+    else if (percentHealthB < 100 && percentHealthB >= 50)
+        cout<<LBLU;
+    else if (percentHealthB < 50 && percentHealthB >= 20)
+        cout<<LYEL; 
+    else if (percentHealthB < 20 && percentHealthB > 0)
+        cout<<LPUR; 
+    else
+        cout<<LRED;
+    cout  <<setw(5)<<dragonB.powers.health<<CDEF;
+    cout  <<"  |  ";
+
+    for (int i=0; i<NUM_ELEMENTS; i++)
+    {
+        if (i == dragonB.nextStep)
+        {
+            if (dragonB.nextDamage > 0)
+                cout<<LRED<<setw(5)<<dragonB.nextDamage<<CDEF;
+            else if (dragonB.nextDamage < 0)
+                cout<<LGRE<<setw(5)<<-dragonB.nextDamage<<CDEF;
+            else
+                cout<<LBLA<<setw(5)<<dragonB.nextDamage<<CDEF;
+        }
+        else
+            cout<<LBLA<<setw(5)<<"_____"<<CDEF;
+    }
+    cout  <<"  |  ";
+
+    cout  <<setw(5)<<dragonB.name;
+
+    cout<<"\n";
+/*
+    cout<<setw(5)<<dragonA.name<<" cast "<<setw(4)<<dragonA.nextStep<<" hurt "<<setw(3)<<dragonA.nextDamage<<", self health "<<setw(5)<<dragonA.powers.health<<"; ";
+    cout<<setw(5)<<dragonB.name<<" cast "<<setw(4)<<dragonB.nextStep<<" hurt "<<setw(3)<<dragonB.nextDamage<<", self health "<<setw(5)<<dragonB.powers.health<<"\n";
+*/
+    #endif
+}
+
+
 Elf * Combat::getFinalResult()
 {
     if (dragonA.powers.health == 0 && dragonB.powers.health == 0)
         return NULL; 
     else if (dragonA.powers.health == 0)
     {
-        cout<<"WINNER - "<<dragonB.name<<"\n";
         return dragonB.pElf; 
     }
     else if (dragonB.powers.health == 0)
     {
-        cout<<"WINNER - "<<dragonA.name<<"\n";
         return dragonA.pElf; 
     }
     return NULL;  
 }
 
+void Combat::printTitle()
+{
+    cout  <<setw(5)<<"Name";
+    cout  <<"  |  ";
+    cout  <<LYEL<<setw(5)<<"Gold"<<CDEF
+          <<LGRE<<setw(5)<<"Wood"<<CDEF
+          <<LBLA<<setw(5)<<"Dust"<<CDEF
+          <<LBLU<<setw(5)<<"Agua"<<CDEF
+          <<LRED<<setw(5)<<"Fire"<<CDEF;
+    cout  <<"  |  ";
+    cout  <<setw(5)<<"Hea";
+    cout  <<"    ||    ";
+    cout  <<setw(5)<<"Hea";
+    cout  <<"  |  ";
+    cout  <<LYEL<<setw(5)<<"Gold"<<CDEF
+          <<LGRE<<setw(5)<<"Wood"<<CDEF
+          <<LBLA<<setw(5)<<"Dust"<<CDEF
+          <<LBLU<<setw(5)<<"Agua"<<CDEF
+          <<LRED<<setw(5)<<"Fire"<<CDEF;
+    cout  <<"  |  ";
+    cout  <<setw(5)<<"Name";
+    cout  <<"\n";
+}
+
 Elf * Combat::autoRun()
 {
-    for (int i=0; i<MAXIM_COMBAT_TURN; i++)
+    #ifdef DEBUG_PRINT
+    cout<<setw(4)<<"Turn";
+    printTitle();
+    #endif
+   
+    bool bEnd = false; 
+    for (int i=1; i<=MAXIM_COMBAT_TURN; i++)
     {
         //usleep(1000 * 3000);
+
+        //print the number of the turn
         #ifdef DEBUG_PRINT
-        cout<<"Round "<<setw(4)<<i<<": ";
+        cout<<setw(4)<<i;
         #endif
 
         getNextAction();
-        
-        if (getOneRoundResult())
-            break;
+        bEnd = getTurnResult();
+        printTurn();
+
+        if (bEnd) break;
     }
     Elf *pElf = getFinalResult();
     if (pElf == NULL)
-        cout<<"EQUALIZE\n";
+        cout<<LBLU<<"DRAW\n"<<CDEF;
+    else
+        cout<<LRED<<setw(4)<<"WIN"
+            <<LYEL<<setw(5)<<pElf->getName()<<CDEF
+            <<"\n";
     return pElf;
 }

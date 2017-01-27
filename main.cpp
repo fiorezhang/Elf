@@ -14,7 +14,7 @@ int testCombat()
 
     Elf *pElfA = NULL;
     Elf *pElfB = NULL;
-    pElfA = new Elf("Gol", true,  YOUNG_AGE, 400, 100, 400, 300, 100);
+    pElfA = new Elf("Gol", true,  YOUNG_AGE, 300, 300, 300, 300, 100);
     pElfB = new Elf("Ven", false, YOUNG_AGE, 260, 260, 260, 260, 260);
 
     while (1){

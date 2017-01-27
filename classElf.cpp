@@ -49,6 +49,9 @@ ostream &operator<<(ostream &output, const Elf &elf)
           <<sColorValue[elf.elements.agua*4/MAXIM_VALUE]<<setw(5)<<elf.elements.agua<<CDEF
           <<sColorValue[elf.elements.fire*4/MAXIM_VALUE]<<setw(5)<<elf.elements.fire<<CDEF;
     output<<"  |  ";
+    output<<setw(5)<<elf.powers.health
+          <<setw(5)<<elf.powers.energy;
+    output<<"  |  ";
     output<<sColorAncestor[elf.ancestors.idPaPa%8]<<setw(7)<<elf.ancestors.idPaPa<<CDEF
           <<sColorAncestor[elf.ancestors.idPaMa%8]<<setw(7)<<elf.ancestors.idPaMa<<CDEF
           <<sColorAncestor[elf.ancestors.idMaPa%8]<<setw(8)<<elf.ancestors.idMaPa<<CDEF
@@ -76,6 +79,9 @@ void Elf::printTitle()
           <<LBLA<<setw(5)<<"Dust"<<CDEF
           <<LBLU<<setw(5)<<"Agua"<<CDEF
           <<LRED<<setw(5)<<"Fire"<<CDEF;
+    cout  <<"  |  ";
+    cout  <<setw(5)<<"Hea"
+          <<setw(5)<<"Eng";
     cout  <<"  |  ";
     cout  <<LCYA<<setw(7)<<"Pa-Pa"<<CDEF
           <<LYEL<<setw(7)<<"Pa-Ma"<<CDEF
