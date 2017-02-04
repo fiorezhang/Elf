@@ -69,6 +69,8 @@ public:
     void addKid() { kid++; }
     Ancestor getAncestors() const { return ancestors; }
 
+    void setNameTribe(const char*);
+
     void ding();
     void grow();
 
@@ -93,6 +95,8 @@ private:
     Status status; 
     //Elf *pLast;
     Elf *pNext;
+
+    char *nameTribe;
 };
 
 #endif//CLASS_ELF_H

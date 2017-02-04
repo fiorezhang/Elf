@@ -50,11 +50,10 @@ int testCombat(Elf *pElfA, Elf *pElfB, int round)
 
 int main()
 {
+    srand((unsigned)time(NULL));
+
     Tribe tribeElf[MAXIM_TRIBES]; 
     int round = 0; 
-
-
-    srand((unsigned)time(NULL));
     
     //testCombat();
 

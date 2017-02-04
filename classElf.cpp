@@ -9,7 +9,7 @@
 int Elf::idCount = 1;
 
 ////
-char *getRandName()
+static char *getRandName()
 {
     static char cPoolFirst[] = { 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'V', 'W', 'Y', 'Z' }; 
     static char cPoolSecond[]= { 'a', 'e', 'i', 'o', 'u' };
@@ -38,6 +38,7 @@ ostream &operator<<(ostream &output, const Elf &elf)
 
     output<<((elf.gender)?LBLU:LRED)<<setw(7)<<elf.index
           <<setw(5)<<elf.name
+          <<setw(4)<<elf.nameTribe
           <<setw(3)<<((elf.gender)?"M":"F")<<CDEF
           <<((elf.age>=20)?sColorValue[4]:sColorValue[elf.age/5])<<setw(3)<<elf.age<<CDEF 
           <<((elf.kid>=7)?sColorValue[4]:sColorValue[(elf.kid+1)/2])<<setw(3)<<elf.kid<<CDEF
@@ -69,6 +70,7 @@ void Elf::printTitle()
 {
     cout  <<LWHI<<setw(7)<<"Index"
           <<setw(5)<<"Name"
+          <<setw(4)<<"Trb"
           <<setw(3)<<"MF"
           <<setw(3)<<"Ag"
           <<setw(3)<<"Kd" 
@@ -103,6 +105,7 @@ Elf::Elf(const char *n, const bool m, const int y, const int g, const int w, con
 
     name = new char[strlen(n) + 1];
     strcpy(name, n);
+    nameTribe = new char[1];
 
     gender = m; 
     age = y; 
@@ -159,6 +162,7 @@ Elf::Elf(Elf &elfPa, Elf &elfMa)
     index = idCount; 
     
     name = getRandName();
+    nameTribe = new char[1];
 
     gender = (rand() % 2 == 0)?false:true; 
     age = 0;
@@ -195,12 +199,23 @@ Elf::Elf(Elf &elfPa, Elf &elfMa)
 
 Elf::~Elf()
 {
-    delete []name;
+    if (!name) 
+        delete []name;
+    if (!nameTribe)
+        delete []nameTribe;
 }
 
 static int fuzzyNum(int num, int div)
 {
     return num + num/div - rand()%(num*2/div+1); 
+}
+
+void Elf::setNameTribe(const char* n) 
+{ 
+    if (!nameTribe)
+        delete []nameTribe;
+    nameTribe = new char[strlen(n) + 1]; 
+    strcpy(nameTribe, n);
 }
 
 void Elf::ding()

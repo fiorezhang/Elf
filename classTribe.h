@@ -28,6 +28,9 @@ public:
 
     int getCount() const { return count; }
 private: 
+    static int idCount; 
+    int index; 
+    char *name;
     Elf *pHead; 
     int count;
 };
