@@ -34,16 +34,16 @@ Tribe::Tribe()
 
     ////
     Elf *pElf = NULL; 
-    pElf = new Elf("Gol", true,  YOUNG_AGE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
-    pElf = new Elf("Ven", false, YOUNG_AGE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
-    pElf = new Elf("Wod", true,  YOUNG_AGE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
-    pElf = new Elf("Jup", false, YOUNG_AGE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
-    pElf = new Elf("Wat", true,  YOUNG_AGE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
-    pElf = new Elf("Mer", false, YOUNG_AGE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
-    pElf = new Elf("Fir", true,  YOUNG_AGE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
-    pElf = new Elf("Mar", false, YOUNG_AGE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
-    pElf = new Elf("Dus", true,  YOUNG_AGE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
-    pElf = new Elf("Sat", false, YOUNG_AGE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
+    pElf = new Elf("", true,  YOUNG_AGE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
+    pElf = new Elf("", false, YOUNG_AGE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
+    pElf = new Elf("", true,  YOUNG_AGE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
+    pElf = new Elf("", false, YOUNG_AGE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
+    pElf = new Elf("", true,  YOUNG_AGE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
+    pElf = new Elf("", false, YOUNG_AGE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
+    pElf = new Elf("", true,  YOUNG_AGE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
+    pElf = new Elf("", false, YOUNG_AGE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE, BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
+    pElf = new Elf("", true,  YOUNG_AGE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
+    pElf = new Elf("", false, YOUNG_AGE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE, BASIC_VALUE+rand()%BASIC_VALUE);    insert(pElf); pElf->setNameTribe(name);
     ////
     ++idCount;
 }

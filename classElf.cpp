@@ -103,10 +103,17 @@ Elf::Elf(const char *n, const bool m, const int y, const int g, const int w, con
 {
     index = idCount;
 
-    name = new char[strlen(n) + 1];
-    strcpy(name, n);
-    nameTribe = new char[1];
+    if (strlen(n))
+    {
+        name = new char[strlen(n) + 1];
+        strcpy(name, n);
+    }
+    else
+    {
+        name = getRandName();
+    }
 
+    nameTribe = new char[1];
     gender = m; 
     age = y; 
     kid = 0; 
