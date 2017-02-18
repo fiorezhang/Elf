@@ -28,6 +28,7 @@
 #define COMBAT_HEALTH_ELF 100
 #define COMBAT_ENERGY_ELF 10
 
-#define SLEEP_MS 10
+#define AUTO_MODE 0
+#define SLEEP_MS 300
 
 #endif//DEFINES_H

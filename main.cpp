@@ -64,14 +64,17 @@ int main()
         {
             int count = tribeElf[i].autoRun();
 
-            testCombat(tribeElf[i].findRand(), tribeElf[i].findRand(), 1);
+            //testCombat(tribeElf[i].findRand(), tribeElf[i].findRand(), 1);
 
             if (count == 0) 
                 return 0; 
         }
-        //getchar(); 
-        //usleep(1000 * SLEEP_MS);
-        getchar();
+
+        #if AUTO_MODE
+            usleep(1000 * SLEEP_MS);
+        #else
+            getchar();
+        #endif
     }
 
         //tribeElf.list(); 
