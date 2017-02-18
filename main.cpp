@@ -62,20 +62,11 @@ int main()
         cout<<"\nRound: "<<++round<<"\n"; 
         for (int i=0; i<MAXIM_TRIBES; i++)
         {
-
-            tribeElf[i].mate(); 
-
-            tribeElf[i].ding(); 
-
-            tribeElf[i].grow(); 
-
-            tribeElf[i].list(); 
-
-            tribeElf[i].buri(); 
+            int count = tribeElf[i].autoRun();
 
             testCombat(tribeElf[i].findRand(), tribeElf[i].findRand(), 1);
 
-            if (tribeElf[i].getCount() == 0) 
+            if (count == 0) 
                 return 0; 
         }
         //getchar(); 

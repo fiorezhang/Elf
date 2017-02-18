@@ -19,7 +19,10 @@ public:
     void list();
     void test();
     void grow();
+    void leag();
     void buri(); 
+
+    int autoRun();
 
     void insert(Elf *); 
     void remove(Elf *);

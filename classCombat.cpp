@@ -50,10 +50,39 @@ Combat::~Combat()
    delete []dragonB.name; 
 }
 
+static int getRandByElements(Element elements)
+{
+    int ret = NUM_ELEMENTS;
+    int * pElements = (int *)&elements;
+
+    int sumElements = 0; 
+    for (int i=0; i<NUM_ELEMENTS; i++)
+        sumElements += (int)(pElements[i]);
+
+    int dice = rand()%sumElements;
+    //int copyDice = dice; //TEST ONLY
+    for (int i=0; i<NUM_ELEMENTS; i++)
+    {
+        if (dice < pElements[i])
+        {
+            ret = i; 
+            break; 
+        }
+        else
+            dice -= pElements[i]; 
+    }
+    /*
+    for (int i=0; i<NUM_ELEMENTS; i++)
+        cout<<setw(5)<<pElements[i];
+    cout<<setw(8)<<copyDice<<setw(6)<<ret<<"\n";
+    */
+    return ret;
+}
+
 void Combat::getNextAction()
 {
-    dragonA.nextStep = rand()%NUM_ELEMENTS;
-    dragonB.nextStep = rand()%NUM_ELEMENTS;
+    dragonA.nextStep = getRandByElements(dragonA.elements);
+    dragonB.nextStep = getRandByElements(dragonB.elements);
     //cout<<"dragonA.nextStep: "<<dragonA.nextStep<<"\n";
     //cout<<"dragonB.nextStep: "<<dragonB.nextStep<<"\n";
 }

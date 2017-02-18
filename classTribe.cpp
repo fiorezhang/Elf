@@ -288,6 +288,10 @@ void Tribe::test()
     cout<<"["<<setw(2)<<count<<", "<<setw(6)<<sum/count<<"]  "; 
 }
 
+void Tribe::leag()
+{
+}
+
 void Tribe::buri()
 {
     int loop = 0; 
@@ -382,4 +386,16 @@ Elf *Tribe::findRand()
 Elf *Tribe::findNext(Elf *pElf)
 {
     return pElf->getPtrNext();  
+}
+
+int Tribe::autoRun()
+{
+    mate();
+    ding();
+    grow();
+    leag();
+    list();
+    buri();
+
+    return count;
 }
