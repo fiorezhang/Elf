@@ -31,6 +31,12 @@ typedef struct _Ancestor
     int idI; 
 }Ancestor;
 
+typedef struct _Point
+{
+    int pointNow;
+    int pointAll;
+}Point;
+
 typedef enum _Status
 {
     PUPAE, 
@@ -45,6 +51,7 @@ typedef enum _Action
     MATE, 
     DING
 }Action;
+
 
 class Elf
 {
@@ -61,6 +68,9 @@ public:
     void setActionMate() { action = MATE; }
     void setActionNone() { action = NONE; }
     Status getStatus() const { return status; }
+    void setPoint(Point);
+    void addPoint() { points.pointNow++; points.pointAll++;}
+    Point getPoint() const { return points; }
 
     Power getPowers() const { return powers; }
     Element getElements() const { return elements; }
@@ -93,6 +103,8 @@ private:
     Ancestor ancestors;
     Action action; 
     Status status; 
+    Point points;
+
     //Elf *pLast;
     Elf *pNext;
 

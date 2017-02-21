@@ -63,6 +63,9 @@ ostream &operator<<(ostream &output, const Elf &elf)
     output<<"  |  ";
     output<<sColorAction[elf.action]<<setw(3)<<sAction[elf.action]<<CDEF
           <<sColorStatus[elf.status]<<setw(3)<<sStatus[elf.status]<<CDEF;
+    output<<"  |  ";
+    output<<setw(5)<<elf.points.pointNow<<CDEF
+          <<setw(5)<<elf.points.pointAll<<CDEF;
     return output; 
 }
 
@@ -95,6 +98,9 @@ void Elf::printTitle()
     cout  <<"  |  ";
     cout  <<LWHI<<setw(3)<<"Ac"
           <<setw(3)<<"St"<<CDEF;
+    cout  <<"  |  ";
+    cout  <<setw(5)<<"Now"<<CDEF
+          <<setw(5)<<"All"<<CDEF;
     cout  <<"\n"; 
 }
 
@@ -132,6 +138,9 @@ Elf::Elf(const char *n, const bool m, const int y, const int g, const int w, con
 
     action = NONE; 
     status = age<YOUNG_AGE?PUPAE:age<ADULT_AGE?YOUNG:ADULT;  
+
+    points.pointNow = 0;
+    points.pointAll = 0;
 
     ++idCount;
 }
@@ -201,6 +210,9 @@ Elf::Elf(Elf &elfPa, Elf &elfMa)
     action = NONE; 
     status = PUPAE;  
 
+    points.pointNow = 0;
+    points.pointAll = 0;
+
     ++idCount; 
 }
 
@@ -223,6 +235,11 @@ void Elf::setNameTribe(const char* n)
         delete []nameTribe;
     nameTribe = new char[strlen(n) + 1]; 
     strcpy(nameTribe, n);
+}
+
+void Elf::setPoint(Point p)
+{
+    points = p;
 }
 
 void Elf::ding()

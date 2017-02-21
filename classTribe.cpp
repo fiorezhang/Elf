@@ -6,6 +6,7 @@
 #include <time.h>
 #include "color.h"
 #include "classElf.h"
+#include "classCombat.h"
 #include "classTribe.h"
 
 int Tribe::idCount = 1;
@@ -290,6 +291,38 @@ void Tribe::test()
 
 void Tribe::leag()
 {
+    int loop = 0;
+    int cnt = 0;
+    Elf *pElf = pHead; 
+    Elf *pElfRival = NULL;
+    if (pElf == NULL) return;
+    
+    // clear all elf's pointNow to start a new league
+    pElf = findNext(pElf); //the head always point to the last one, so shift one
+    while (loop++ < count)
+    {
+        Point pointA = pElf->getPoint();
+        pointA.pointNow = 0;
+        pElf->setPoint(pointA);
+        pElf = findNext(pElf);
+    }
+
+    // now everyone needs to calclate the point by turn. 
+    loop = 0;
+    while (loop++ < count)
+    {
+        // find one elf and start the combat to all others
+        cnt = 0;
+        pElfRival = findNext(pElf);
+        while (cnt++ < (count-1) && pElfRival != pElf)
+        {
+            Combat *pCombat = new Combat(*pElf, *pElfRival);
+            pCombat->autoRun()->addPoint();
+            delete pCombat;
+            pElfRival = findNext(pElfRival);
+        }
+        pElf = findNext(pElf);
+    }
 }
 
 void Tribe::buri()
