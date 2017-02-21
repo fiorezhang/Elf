@@ -236,14 +236,18 @@ void Tribe::list()
 {
     int loop = 0; 
     int sum = 0; 
-    int sizeArray = MAXIM_POPULATION * 7; 
-    int Ancient[MAXIM_POPULATION * 7]; 
-    Statis Result[MAXIM_POPULATION * 7]; 
+    int elements = 0;
+    int maxElements = 0;
+    int maxPointNow = 0;
+    int maxPointAll = 0;
+    int sizeAnc = MAXIM_POPULATION * 7; 
+    int inputAnc[MAXIM_POPULATION * 7]; 
+    Statis outputAnc[MAXIM_POPULATION * 7]; 
     int cntAnc = 0; 
     Elf *pElf = pHead; 
 
-    memset(Ancient, 0, sizeof(Ancient[0]) * sizeArray); 
-    memset(Result, 0, sizeof(Result[0]) * sizeArray); 
+    memset(inputAnc, 0, sizeof(inputAnc[0]) * sizeAnc); 
+    memset(outputAnc, 0, sizeof(outputAnc[0]) * sizeAnc); 
 
     if (pElf == NULL) return; 
 
@@ -253,19 +257,31 @@ void Tribe::list()
     while (loop++ < count)
     {
         cout<<(*pElf)<<"\n"; 
-        sum+=pElf->getElements().gold + pElf->getElements().wood + pElf->getElements().dust + pElf->getElements().agua + pElf->getElements().fire; 
-        Ancient[cntAnc++] = pElf->getAncestors().idPaPa; Ancient[cntAnc++] = pElf->getAncestors().idPaMa; 
-        Ancient[cntAnc++] = pElf->getAncestors().idMaPa; Ancient[cntAnc++] = pElf->getAncestors().idMaMa; 
-        Ancient[cntAnc++] = pElf->getAncestors().idPa; Ancient[cntAnc++] = pElf->getAncestors().idMa; 
-        Ancient[cntAnc++] = pElf->getAncestors().idI; 
+
+        elements = pElf->getElements().gold + pElf->getElements().wood + pElf->getElements().dust + pElf->getElements().agua + pElf->getElements().fire; 
+        sum += elements;
+
+        if (maxElements < elements) maxElements = elements;
+        if (maxPointNow < pElf->getPoint().pointNow) maxPointNow = pElf->getPoint().pointNow;
+        if (maxPointAll < pElf->getPoint().pointAll) maxPointAll = pElf->getPoint().pointAll;
+
+        inputAnc[cntAnc++] = pElf->getAncestors().idPaPa; inputAnc[cntAnc++] = pElf->getAncestors().idPaMa; 
+        inputAnc[cntAnc++] = pElf->getAncestors().idMaPa; inputAnc[cntAnc++] = pElf->getAncestors().idMaMa; 
+        inputAnc[cntAnc++] = pElf->getAncestors().idPa; inputAnc[cntAnc++] = pElf->getAncestors().idMa; 
+        inputAnc[cntAnc++] = pElf->getAncestors().idI; 
+
         pElf = findNext(pElf); 
     }
-    sortStatis(Ancient, Result, sizeArray); 
-    cout<<"Count: "<<setw(2)<<count<<", value(avarage): "<<setw(4)<<sum/count<<", Ancestors: "; 
-    cout<<sColorAncestor[Result[0].value%8]<<setw(7)<<Result[0].value<<" >"<<LRED<<setw(2)<<Result[0].count<<CDEF<<", "; 
-    cout<<sColorAncestor[Result[1].value%8]<<setw(7)<<Result[1].value<<" >"<<LYEL<<setw(2)<<Result[1].count<<CDEF<<", "; 
-    cout<<sColorAncestor[Result[2].value%8]<<setw(7)<<Result[2].value<<" >"<<LBLU<<setw(2)<<Result[2].count<<CDEF<<", "; 
-    cout<<sColorAncestor[Result[3].value%8]<<setw(7)<<Result[3].value<<" >"<<LPUR<<setw(2)<<Result[3].count<<CDEF<<", "; 
+    sortStatis(inputAnc, outputAnc, sizeAnc); 
+    cout<<LYEL<<"Count: "<<LGRE<<setw(2)<<count<<CDEF<<", ";
+    cout<<LYEL<<"Elements "<<CDEF<<"avarage: "<<LGRE<<setw(4)<<sum/count<<CDEF<<", maximum: "<<LGRE<<setw(4)<<maxElements<<CDEF<<". ";
+    cout<<LYEL<<"Point "<<CDEF<<"now: "<<LGRE<<setw(2)<<maxPointNow<<CDEF<<", all: "<<LGRE<<setw(4)<<maxPointAll<<CDEF<<". ";
+    cout<<LYEL<<"Ancestors: "; 
+    cout<<sColorAncestor[outputAnc[0].value%8]<<setw(6)<<outputAnc[0].value<<" >"<<LRED<<setw(2)<<outputAnc[0].count<<CDEF<<", "; 
+    cout<<sColorAncestor[outputAnc[1].value%8]<<setw(6)<<outputAnc[1].value<<" >"<<LRED<<setw(2)<<outputAnc[1].count<<CDEF<<", "; 
+    cout<<sColorAncestor[outputAnc[2].value%8]<<setw(6)<<outputAnc[2].value<<" >"<<LRED<<setw(2)<<outputAnc[2].count<<CDEF<<", "; 
+    cout<<sColorAncestor[outputAnc[3].value%8]<<setw(6)<<outputAnc[3].value<<" >"<<LRED<<setw(2)<<outputAnc[3].count<<CDEF<<", "; 
+
     cout<<"\n"; 
 }
 
