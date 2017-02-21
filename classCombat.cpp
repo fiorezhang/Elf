@@ -8,7 +8,8 @@
 #include "color.h"
 #include "classCombat.h"
 
-#define DEBUG_PRINT
+//#define DEBUG_PRINT
+//#define DEBUG_PRINT_L2
 
 Combat::Combat(Elf &elfA, Elf &elfB)
 {
@@ -295,13 +296,14 @@ Elf * Combat::autoRun()
     #endif
    
     bool bEnd = false; 
-    for (int i=1; i<=MAXIM_COMBAT_TURN; i++)
+    int round = 0;
+    for (round=1; round<=MAXIM_COMBAT_TURN; round++)
     {
         //usleep(1000 * 3000);
 
         //print the number of the turn
         #ifdef DEBUG_PRINT
-        cout<<setw(7)<<i;
+        cout<<setw(7)<<round;
         #endif
 
         getNextAction();
@@ -311,18 +313,22 @@ Elf * Combat::autoRun()
         if (bEnd) break;
     }
     Elf *pElf = getFinalResult();
+
+    #ifdef DEBUG_PRINT_L2
+    dragonA.pElf->printTitle();
+    cout<<*(dragonA.pElf)<<"\n";
+    cout<<*(dragonB.pElf)<<"\n";
+
     if (pElf == NULL)
         cout<<LBLU<<"DRAW\n"<<CDEF;
     else
         cout<<LBLA<<setw(7)<<"WINNER"
             <<LYEL<<setw(5)<<pElf->getName()<<CDEF
+            <<LBLA<<setw(7)<<"ROUND"
+            <<LGRE<<setw(3)<<round<<CDEF
             <<"\n";
-
-    #ifdef DEBUG_PRINT
-    dragonA.pElf->printTitle();
-    cout<<*(dragonA.pElf)<<"\n";
-    cout<<*(dragonB.pElf)<<"\n";
     cout<<"\n";
     #endif
+
     return pElf;
 }

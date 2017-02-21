@@ -19,8 +19,8 @@
 
 #define FUZZY_DING 3 // 1/FUZZY_DING up or dow to original value
 
-#define MAXIM_KINDER 3
-#define MAXIM_POPULATION 40
+#define MAXIM_KINDER 4
+#define MAXIM_POPULATION 50
 
 #define MAXIM_TRIBES 1
 

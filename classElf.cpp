@@ -6,8 +6,9 @@
 #include "color.h"
 #include "classElf.h"
 
-int Elf::idCount = 1;
+#define DEBUG_PRINT
 
+int Elf::idCount = 1;
 ////
 static char *getRandName()
 {
@@ -29,8 +30,12 @@ static const string sAction[] = { "N", "M", "D" };
 static const string sStatus[] = { "P", "Y", "A", "D" };
 static const string sColorAction[] = { LBLA, LYEL, LGRE };
 static const string sColorStatus[] = { LBLA, LPUR, LBLU, LRED };
-static const string sColorValue[] = { LBLA, LPUR, LBLU, LYEL, LRED };
+static const string sColorValue[] = { LBLA, LCYA, LPUR, LYEL, LRED };
 static const string sColorAncestor[] = { LBLA, LRED, LGRE, LYEL, LBLU, LPUR, LCYA, LWHI }; 
+static const string sColorPoint[] = { LBLA, LCYA, LPUR, LYEL, LRED };
+
+static int maxPointNow = 2 * (MAXIM_POPULATION - 1);
+static int maxPointAll = MAXIM_AGE * maxPointNow;
 
 ostream &operator<<(ostream &output, const Elf &elf)
 {
@@ -42,7 +47,9 @@ ostream &operator<<(ostream &output, const Elf &elf)
           <<setw(3)<<((elf.gender)?"M":"F")<<CDEF
           <<((elf.age>=20)?sColorValue[4]:sColorValue[elf.age/5])<<setw(3)<<elf.age<<CDEF 
           <<((elf.kid>=7)?sColorValue[4]:sColorValue[(elf.kid+1)/2])<<setw(3)<<elf.kid<<CDEF
-          <<sColorValue[(elements-1)/MAXIM_VALUE]<<setw(5)<<elements<<CDEF; 
+          <<sColorValue[(elements-1)/MAXIM_VALUE]<<setw(5)<<elements<<CDEF 
+          <<((elf.points.pointAll>=maxPointAll/2)?sColorPoint[4]:sColorPoint[elf.points.pointAll*8/maxPointAll])<<setw(5)<<elf.points.pointAll<<CDEF
+          <<((elf.points.pointNow>=maxPointNow)?sColorPoint[4]:sColorPoint[elf.points.pointNow*4/maxPointNow])<<setw(4)<<elf.points.pointNow<<CDEF;
     output<<"  |  ";
     output<<sColorValue[elf.elements.gold*4/MAXIM_VALUE]<<setw(5)<<elf.elements.gold<<CDEF
           <<sColorValue[elf.elements.wood*4/MAXIM_VALUE]<<setw(5)<<elf.elements.wood<<CDEF
@@ -53,6 +60,10 @@ ostream &operator<<(ostream &output, const Elf &elf)
     output<<setw(5)<<elf.powers.health
           <<setw(5)<<elf.powers.energy;
     output<<"  |  ";
+    output<<sColorAction[elf.action]<<setw(3)<<sAction[elf.action]<<CDEF
+          <<sColorStatus[elf.status]<<setw(3)<<sStatus[elf.status]<<CDEF;
+#ifdef DEBUG_PRINT
+    output<<"  |  ";
     output<<sColorAncestor[elf.ancestors.idPaPa%8]<<setw(7)<<elf.ancestors.idPaPa<<CDEF
           <<sColorAncestor[elf.ancestors.idPaMa%8]<<setw(7)<<elf.ancestors.idPaMa<<CDEF
           <<sColorAncestor[elf.ancestors.idMaPa%8]<<setw(8)<<elf.ancestors.idMaPa<<CDEF
@@ -60,12 +71,7 @@ ostream &operator<<(ostream &output, const Elf &elf)
           <<sColorAncestor[elf.ancestors.idPa%8]<<setw(8)<<elf.ancestors.idPa<<CDEF
           <<sColorAncestor[elf.ancestors.idMa%8]<<setw(7)<<elf.ancestors.idMa<<CDEF
           <<sColorAncestor[elf.ancestors.idI%8]<<setw(8)<<elf.ancestors.idI<<CDEF;
-    output<<"  |  ";
-    output<<sColorAction[elf.action]<<setw(3)<<sAction[elf.action]<<CDEF
-          <<sColorStatus[elf.status]<<setw(3)<<sStatus[elf.status]<<CDEF;
-    output<<"  |  ";
-    output<<setw(5)<<elf.points.pointNow<<CDEF
-          <<setw(5)<<elf.points.pointAll<<CDEF;
+#endif
     return output; 
 }
 
@@ -77,7 +83,9 @@ void Elf::printTitle()
           <<setw(3)<<"MF"
           <<setw(3)<<"Ag"
           <<setw(3)<<"Kd" 
-          <<setw(5)<<"Elem"<<CDEF;
+          <<setw(5)<<"Elem"<<CDEF
+          <<setw(5)<<"All"<<CDEF
+          <<setw(4)<<"Now"<<CDEF;
     cout  <<"  |  ";
     cout  <<LYEL<<setw(5)<<"Gold"<<CDEF
           <<LGRE<<setw(5)<<"Wood"<<CDEF
@@ -88,19 +96,18 @@ void Elf::printTitle()
     cout  <<setw(5)<<"Hea"
           <<setw(5)<<"Eng";
     cout  <<"  |  ";
+    cout  <<LWHI<<setw(3)<<"Ac"
+          <<setw(3)<<"St"<<CDEF;
+#ifdef DEBUG_PRINT
+    cout  <<"  |  ";
     cout  <<LCYA<<setw(7)<<"Pa-Pa"<<CDEF
           <<LYEL<<setw(7)<<"Pa-Ma"<<CDEF
           <<LGRE<<setw(8)<<"Ma-Pa"<<CDEF
           <<LPUR<<setw(7)<<"Ma-Ma"<<CDEF
           <<LBLU<<setw(8)<<"Pa"<<CDEF
           <<LRED<<setw(7)<<"Ma"<<CDEF
-          <<LWHI<<setw(8)<<"I"<<CDEF;
-    cout  <<"  |  ";
-    cout  <<LWHI<<setw(3)<<"Ac"
-          <<setw(3)<<"St"<<CDEF;
-    cout  <<"  |  ";
-    cout  <<setw(5)<<"Now"<<CDEF
-          <<setw(5)<<"All"<<CDEF;
+          <<LWHI<<setw(8)<<"Self"<<CDEF;
+#endif
     cout  <<"\n"; 
 }
 
