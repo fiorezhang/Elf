@@ -41,7 +41,7 @@ ostream &operator<<(ostream &output, const Elf &elf)
 {
     int elements = elf.elements.gold+elf.elements.wood+elf.elements.dust+elf.elements.agua+elf.elements.fire;
 
-    output<<((elf.gender)?LBLU:LRED)<<setw(7)<<elf.index
+    output<<((elf.gender)?LYEL:LGRE)<<setw(7)<<elf.index
           <<setw(5)<<elf.name
           <<setw(4)<<elf.nameTribe
           <<setw(3)<<((elf.gender)?"M":"F")<<CDEF

@@ -80,10 +80,16 @@ static int getRandByElements(Element elements)
     return ret;
 }
 
+static int getRand()
+{
+    int ret = rand()%NUM_ELEMENTS;
+    return ret;
+}
+
 void Combat::getNextAction()
 {
     dragonA.nextStep = getRandByElements(dragonA.elements);
-    dragonB.nextStep = getRandByElements(dragonB.elements);
+    dragonB.nextStep = getRand();
     //cout<<"dragonA.nextStep: "<<dragonA.nextStep<<"\n";
     //cout<<"dragonB.nextStep: "<<dragonB.nextStep<<"\n";
 }

@@ -12,7 +12,7 @@
 
 //TODO: can set to a tribe based value??
 #define YOUNG_VALUE 050
-#define ADULT_VALUE 200
+#define ADULT_VALUE 150
 
 #define ODD_GENETIC_MOLE 2
 #define ODD_GENETIC_DENO 3
