@@ -1,6 +1,8 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
+#define PRINT_TO_BASH 1
+
 #define NUM_ELEMENTS 5
 
 #define MAXIM_AGE 30
@@ -20,7 +22,7 @@
 #define FUZZY_DING 3 // 1/FUZZY_DING up or dow to original value
 
 #define MAXIM_KINDER 4
-#define MAXIM_POPULATION 50
+#define MAXIM_POPULATION 53
 
 #define MAXIM_TRIBES 1
 
@@ -28,7 +30,7 @@
 #define COMBAT_HEALTH_ELF 100
 #define COMBAT_ENERGY_ELF 10
 
-#define AUTO_MODE 0
-#define SLEEP_MS 300
+#define AUTO_MODE 1
+#define SLEEP_MS 500
 
 #endif//DEFINES_H

@@ -73,7 +73,7 @@ int main()
         #if AUTO_MODE
             usleep(1000 * SLEEP_MS);
         #else
-            usleep(1000 * 100);
+            usleep(1000 * 1);
             getchar();
         #endif
     }

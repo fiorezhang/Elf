@@ -1,6 +1,9 @@
 #ifndef COLOR_H
 #define COLOR_H
 
+#include "defines.h"
+
+#if PRINT_TO_BASH
 #define CDEF "\033[0m"
 #define CBLA "\033[0;30m"
 #define CRED "\033[0;31m"
@@ -18,5 +21,24 @@
 #define LPUR "\033[1;35m"
 #define LCYA "\033[1;36m"
 #define LWHI "\033[1;37m"
+#else
+#define CDEF ""
+#define CBLA ""
+#define CRED ""
+#define CGRE ""
+#define CYEL ""
+#define CBLU ""
+#define CPUR ""
+#define CCYA ""
+#define CWHI ""
+#define LBLA ""
+#define LRED ""
+#define LGRE ""
+#define LYEL ""
+#define LBLU ""
+#define LPUR ""
+#define LCYA ""
+#define LWHI ""
+#endif
 
 #endif//COLOR_H
