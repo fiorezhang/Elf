@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include "defines.h"
+#include "color.h"
 #include "classElf.h"
 #include "classTribe.h"
 #include "classCombat.h"
@@ -53,8 +55,10 @@ int main()
     srand((unsigned)time(NULL));
 
     Tribe tribeElf[MAXIM_TRIBES]; 
+    int count[MAXIM_TRIBES];
     int round = 0; 
-    
+    Elf *pElfAdopt = NULL;
+
     //testCombat();
 
     while (1)
@@ -62,12 +66,28 @@ int main()
         cout<<"\nRound: "<<++round<<"\n"; 
         for (int i=0; i<MAXIM_TRIBES; i++)
         {
-            int count = tribeElf[i].autoRun();
-
+            count[i] = tribeElf[i].autoRun();
             //testCombat(tribeElf[i].findRand(), tribeElf[i].findRand(), 1);
 
-            if (count == 0) 
+            if (count[i] == 0) 
                 return 0; 
+        }
+
+        for (int i=0; i<MAXIM_TRIBES; i++)
+        {
+            //TODO: test adoption
+            if (count[i] < WARN_POPULATION)
+            {
+                int indexAdopt = i;
+                while(indexAdopt == i)
+                {
+                    indexAdopt = rand()%MAXIM_TRIBES;
+                }
+                pElfAdopt = tribeElf[indexAdopt].findRand();
+                tribeElf[indexAdopt].remove(pElfAdopt);
+                tribeElf[i].insert(pElfAdopt);
+                cout<<LRED<<"Adopt"<<LPUR<<" ["<<setw(3)<<pElfAdopt->getName()<<setw(5)<<pElfAdopt->getIndex()<<"] "<<CDEF<<"from "<<LYEL<<tribeElf[indexAdopt].getName()<<CDEF<<" to "<<LGRE<<tribeElf[i].getName()<<CDEF<<"\n";
+            }
         }
 
         #if AUTO_MODE

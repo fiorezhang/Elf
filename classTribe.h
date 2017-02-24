@@ -30,6 +30,7 @@ public:
     Elf *findNext(Elf *);
 
     int getCount() const { return count; }
+    char *getName() const { return name; }
 private: 
     static int idCount; 
     int index; 
