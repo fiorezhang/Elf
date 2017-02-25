@@ -1,6 +1,7 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
+
 #define PRINT_TO_BASH 1
 
 #define NUM_ELEMENTS 5
@@ -16,16 +17,17 @@
 #define YOUNG_VALUE 050
 #define ADULT_VALUE 100
 
-#define ODD_GENETIC_MOLE 1
+#define ODD_GENETIC_MOLE 2
 #define ODD_GENETIC_DENO 3
 
 #define FUZZY_DING 3 // 1/FUZZY_DING up or dow to original value
 
-#define MAXIM_KINDER 3
-#define MAXIM_POPULATION 20
-#define WARN_POPULATION 15
+#define MAXIM_KINDER 5
+#define MAXIM_POPULATION 16
+#define WARN_POPULATION 12
 
 #define MAXIM_TRIBES 4
+#define INITIAL_PAIR 2
 
 #define MAXIM_COMBAT_TURN 1000
 #define COMBAT_HEALTH_ELF 100
