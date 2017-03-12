@@ -8,8 +8,8 @@
 #include "color.h"
 #include "classCombat.h"
 
-//#define DEBUG_PRINT
-//#define DEBUG_PRINT_L2
+#define DEBUG_PRINT
+#define DEBUG_PRINT_L2
 
 Combat::Combat(Elf &elfA, Elf &elfB)
 {
@@ -51,6 +51,46 @@ Combat::~Combat()
    delete []dragonB.name; 
 }
 
+static int getRandByBothElements(Element elementsSelf, Element elementsRiva)
+{
+    int ret = NUM_ELEMENTS;
+    int * pElementsSelf = (int *)&elementsSelf;
+    int * pElementsRiva = (int *)&elementsRiva;
+    int * pElements = new int[5];
+
+    int sumElements = 0; 
+    //cout<<"\n";
+    for (int i=0; i<NUM_ELEMENTS; i++)
+    {
+        // Consider rival's elements. For example, self wants to use gold, then the rival's gold, wood, fire is negative, but dirt, agua is positive. So here judge the next step by: self.(gold * rival.dirt * rival.agua) / (rival.gold * rival.wood * rival.fire), the 1000 is just to make sure the integor big enough to calculate the odd
+        pElements[i] = 1000 * pElementsSelf[i] / pElementsRiva[i] * pElementsRiva[(i+2)%NUM_ELEMENTS] / pElementsRiva[(i+4)%NUM_ELEMENTS] * pElementsRiva[(i+3)%NUM_ELEMENTS] / pElementsRiva[(i+1)%NUM_ELEMENTS];
+        //cout<<pElements[i]<<" - ";
+        sumElements += (int)(pElements[i]);
+    }
+    //cout<<"\n";
+
+    int dice = rand()%sumElements;
+    //int copyDice = dice; //TEST ONLY
+    for (int i=0; i<NUM_ELEMENTS; i++)
+    {
+        if (dice < pElements[i])
+        {
+            ret = i; 
+            break; 
+        }
+        else
+            dice -= pElements[i]; 
+    }
+    /*
+    for (int i=0; i<NUM_ELEMENTS; i++)
+        cout<<setw(5)<<pElements[i];
+    cout<<setw(8)<<copyDice<<setw(6)<<ret<<"\n";
+    */
+    delete pElements;
+    return ret;
+}
+
+
 static int getRandByElements(Element elements)
 {
     int ret = NUM_ELEMENTS;
@@ -88,12 +128,46 @@ static int getRand()
 
 void Combat::getNextAction()
 {
-    dragonA.nextStep = getRandByElements(dragonA.elements);
+    dragonA.nextStep = getRand();
     dragonB.nextStep = getRand();
     //cout<<"dragonA.nextStep: "<<dragonA.nextStep<<"\n";
     //cout<<"dragonB.nextStep: "<<dragonB.nextStep<<"\n";
 }
 
+void Combat::getNextAction(Strategy strategyA, Strategy strategyB)
+{
+    switch (strategyA)
+    {
+        case RANDOM:
+            dragonA.nextStep = getRand();
+            break;
+        case CONSIDER_SELF:
+            dragonA.nextStep = getRandByElements(dragonA.elements);
+            break;
+        case CONSIDER_BOTH:
+            dragonA.nextStep = getRandByBothElements(dragonA.elements, dragonB.elements);
+            break; 
+        default: 
+            dragonA.nextStep = getRand();
+    }
+
+    switch (strategyB)
+    {
+        case RANDOM:
+            dragonB.nextStep = getRand();
+            break;
+        case CONSIDER_SELF:
+            dragonB.nextStep = getRandByElements(dragonB.elements);
+            break;
+        case CONSIDER_BOTH:
+            dragonB.nextStep = getRandByBothElements(dragonB.elements, dragonA.elements);
+            break; 
+        default: 
+            dragonB.nextStep = getRand();
+    }
+    //cout<<"dragonA.nextStep: "<<dragonA.nextStep<<"\n";
+    //cout<<"dragonB.nextStep: "<<dragonB.nextStep<<"\n";
+}
 //return false if combat not finished(health all 
 bool Combat::getTurnResult() 
 {
@@ -312,7 +386,7 @@ Elf * Combat::autoRun()
         cout<<setw(7)<<round;
         #endif
 
-        getNextAction();
+        getNextAction((Strategy)COMBAT_STRATEGY_A, (Strategy)COMBAT_STRATEGY_B);
         bEnd = getTurnResult();
         printTurn();
 
@@ -326,7 +400,7 @@ Elf * Combat::autoRun()
     cout<<*(dragonB.pElf)<<"\n";
 
     if (pElf == NULL)
-        cout<<LBLU<<"DRAW\n"<<CDEF;
+        cout<<LRED<<"DRAW\n"<<CDEF;
     else
         cout<<LBLA<<setw(7)<<"WINNER"
             <<LYEL<<setw(5)<<pElf->getName()<<CDEF
@@ -336,5 +410,13 @@ Elf * Combat::autoRun()
     cout<<"\n";
     #endif
 
+    if (pElf == NULL)
+    {
+        // CANT RETURN A NULL, SO, HAVE TO RANDOM ONE
+        if (rand()%2)
+            pElf = dragonA.pElf; 
+        else
+            pElf = dragonB.pElf;
+    }
     return pElf;
 }

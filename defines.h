@@ -23,15 +23,17 @@
 #define FUZZY_DING 3 // 1/FUZZY_DING up or dow to original value
 
 #define MAXIM_KINDER 5
-#define MAXIM_POPULATION 16
-#define WARN_POPULATION 12
+#define MAXIM_POPULATION 50//16
+#define WARN_POPULATION 30//12
 
-#define MAXIM_TRIBES 4
-#define INITIAL_PAIR 2
+#define MAXIM_TRIBES 1 //4
+#define INITIAL_PAIR 5 //2
 
 #define MAXIM_COMBAT_TURN 1000
-#define COMBAT_HEALTH_ELF 100
-#define COMBAT_ENERGY_ELF 10
+#define COMBAT_HEALTH_ELF 500
+#define COMBAT_ENERGY_ELF 50
+#define COMBAT_STRATEGY_A 2
+#define COMBAT_STRATEGY_B 2
 
 #define AUTO_MODE 1
 #define SLEEP_MS 1

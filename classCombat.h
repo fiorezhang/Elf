@@ -18,6 +18,13 @@ typedef struct _Dragon
     Elf *pElf;
 }Dragon;
 
+typedef enum _Strategy
+{
+    RANDOM, 
+    CONSIDER_SELF, 
+    CONSIDER_BOTH
+}Strategy;
+
 class Combat
 {
 public:
@@ -25,6 +32,7 @@ public:
     ~Combat();
 
     void getNextAction();
+    void getNextAction(Strategy, Strategy);
     bool getTurnResult();
     Elf *getFinalResult();
     void printTitle();

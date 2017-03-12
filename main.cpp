@@ -11,12 +11,16 @@
 #include "classTribe.h"
 #include "classCombat.h"
 
+
+//#define TEST_COMBAT
+
+#ifdef TEST_COMBAT
 int testCombat()
 {
     Elf *pElfA = NULL;
     Elf *pElfB = NULL;
-    pElfA = new Elf("Gol", true,  YOUNG_AGE, 300, 300, 300, 300, 100);
-    pElfB = new Elf("Ven", false, YOUNG_AGE, 260, 260, 260, 260, 260);
+    pElfA = new Elf("Gol", true,  YOUNG_AGE, 900, 900, 900, 900, 100);
+    pElfB = new Elf("Ven", false, YOUNG_AGE, 700, 700, 700, 700, 700);
 
     while (1)
     {
@@ -49,6 +53,7 @@ int testCombat(Elf *pElfA, Elf *pElfB, int round)
     }
     return 0;
 }
+#endif //TEST_COMBAT
 
 int main()
 {
@@ -59,7 +64,9 @@ int main()
     int round = 0; 
     Elf *pElfAdopt = NULL;
 
-    //testCombat();
+#ifdef TEST_COMBAT
+    testCombat();
+#endif
 
     while (1)
     {
@@ -75,11 +82,11 @@ int main()
 
         for (int i=0; i<MAXIM_TRIBES; i++)
         {
-            //TODO: test adoption
-            if (count[i] < WARN_POPULATION)
+            //adoption
+            if (MAXIM_TRIBES > 1 && count[i] < WARN_POPULATION)
             {
                 int indexAdopt = i;
-                while(indexAdopt == i)
+                while(indexAdopt == i) //MAXIM_TRIBES must great than one
                 {
                     indexAdopt = rand()%MAXIM_TRIBES;
                 }
